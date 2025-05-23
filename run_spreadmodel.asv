@@ -1,0 +1,34 @@
+%% HEADER 
+%{
+COVID-19 SPREAD MATLAB LEARNING PROJECT YIPPEE
+Author: Yingel Feng
+Date: 2025-05-22
+
+Inputs:     
+Outputs:    
+
+Functions: sir_model.m
+
+--- Revision History ---
+%}
+
+data = readtable('owid-covid-data.csv');
+canadaData = data(strcmp(data.location, 'Canada'), :);
+startDate = datetime(2020, 1, 1);
+endDate = datetime(2020, 6, 30);
+mask = (canadaData.date >= startDate) & (canadaData.date <= endDate);
+
+
+y0 = [0.99; 0.01; 0];
+tspan = [0 160]; 
+
+[t, y] = ode45(@sir_model, tspan, y0);
+
+plot(t, y(:,1), 'b', 'LineWidth', 2); hold on;
+plot(t, y(:,2), 'r', 'LineWidth', 2);
+plot(t, y(:,3), 'g', 'LineWidth', 2);
+xlabel('Time (days)');
+ylabel('Population Fraction');
+legend('Susceptible', 'Infected', 'Recovered');
+title('SIR Epidemic Model');
+grid on;

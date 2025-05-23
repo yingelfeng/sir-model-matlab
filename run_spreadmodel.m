@@ -1,0 +1,48 @@
+%% HEADER 
+%{
+COVID-19 SPREAD MATLAB LEARNING PROJECT YIPPEE
+Author: Yingel Feng
+Date: 2025-05-22
+
+Inputs:     
+Outputs:    
+
+Functions: sir_model.m
+
+--- Revision History ---
+%}
+
+data = readtable('owid-covid-data.csv');  % import real data
+canadaData = data(strcmp(data.location, 'Canada'), :);
+startDate = datetime(2021, 12, 1);
+endDate = datetime(2022, 5, 30);
+mask = (canadaData.date >= startDate) & (canadaData.date <= endDate); % filter dates from jan-jun 2020
+canadaData = canadaData(mask, :);
+
+total_cases = canadaData.total_cases;
+population = canadaData.population(1);
+I_data = total_cases/population; % extrapolate real infected data
+t_data = days(canadaData.date - canadaData.date(1));
+
+figure;
+plot(t_data, I_data, 'r', 'LineWidth', 2);
+xlabel('Days since Dec 1, 2021');
+ylabel('Fraction of population infected');
+title('Canada COVID-19 Data (Dec 2021–May 2022)');
+grid on;
+    
+
+y0 = [1; 0.046; 0];
+tspan = [0 180]; 
+
+[t, y] = ode45(@sir_model, tspan, y0);
+
+figure;
+plot(t, y(:,1), 'b', 'LineWidth', 2); hold on;
+plot(t, y(:,2), 'r', 'LineWidth', 2);
+plot(t, y(:,3), 'g', 'LineWidth', 2);
+xlabel('Time (days)');
+ylabel('Population Fraction');
+legend('Susceptible', 'Infected', 'Recovered');
+title('SIR Epidemic Model');
+grid on;
