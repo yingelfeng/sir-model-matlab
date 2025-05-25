@@ -1,4 +1,3 @@
-# sir-model-matlab
 # SIR COVID-19 Model – Canada (Dec 2021 to May 2022)
 
 This project uses MATLAB to simulate and fit a classic SIR (Susceptible–Infected–Recovered) epidemic model to real COVID-19 data from Canada, focusing on the Omicron wave (Dec 2021 – May 2022).
