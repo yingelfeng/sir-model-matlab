@@ -11,6 +11,7 @@ Functions: sir_model.m
 
 --- Revision History ---
 2025-05-22: Initial commit with SIR model and import of data
+2025-05-25: Fitted simulation model to real data with beta and gamma vals
 
 %}
 
@@ -65,6 +66,7 @@ beta_fit = bestParams(1);
 gamma_fit = bestParams(2);
 fprintf('Best-fit beta: %.4f\n', beta_fit);
 fprintf('Best-fit gamma: %.4f\n', gamma_fit);
+fprintf('Estimated R0: %.2f\n', beta_fit/gamma_fit);
 
 I_fit = simulate_sir([beta_fit, gamma_fit], t_data, S0, I0, R0);
 
